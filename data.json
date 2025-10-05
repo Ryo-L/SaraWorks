@@ -1,0 +1,72 @@
+[
+  {
+    "turn": 1,
+    "ndvi": 0.5,
+    "soilMoisture": 50,
+    "precipitation": 20,
+    "temperature": 22
+  },
+  {
+    "turn": 2,
+    "ndvi": 0.5,
+    "soilMoisture": 50,
+    "precipitation": 20,
+    "temperature": 22
+  },
+  {
+    "turn": 3,
+    "ndvi": 0.5,
+    "soilMoisture": 50,
+    "precipitation": 20,
+    "temperature": 22
+  },
+  {
+    "turn": 4,
+    "ndvi": 0.5,
+    "soilMoisture": 50,
+    "precipitation": 20,
+    "temperature": 22
+  },
+  {
+    "turn": 5,
+    "ndvi": 0.5,
+    "soilMoisture": 50,
+    "precipitation": 20,
+    "temperature": 22
+  },
+  {
+    "turn": 6,
+    "ndvi": 0.5,
+    "soilMoisture": 50,
+    "precipitation": 20,
+    "temperature": 22
+  },
+  {
+    "turn": 7,
+    "ndvi": 0.5,
+    "soilMoisture": 50,
+    "precipitation": 20,
+    "temperature": 22
+  },
+  {
+    "turn": 8,
+    "ndvi": 0.5,
+    "soilMoisture": 50,
+    "precipitation": 20,
+    "temperature": 22
+  },
+  {
+    "turn": 9,
+    "ndvi": 0.5,
+    "soilMoisture": 50,
+    "precipitation": 20,
+    "temperature": 22
+  },
+  {
+    "turn": 10,
+    "ndvi": 0.5,
+    "soilMoisture": 50,
+    "precipitation": 20,
+    "temperature": 22
+  }
+]

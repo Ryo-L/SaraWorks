@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Terra Farm (NASA UI)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="background"></div>
+
+  <div id="start-screen" class="panel start-panel">
+    <div class="start-header">
+      <img src="nasa_logo.png" alt="NASA Logo" class="logo"/>
+      <h1>Terra Farm</h1>
+    </div>
+    <p class="subtitle">Pick a nation, set a starting budget (use B for billion, M for million), then start your mission.</p>
+
+    <div class="country-list">
+      <label class="country-option"><input type="radio" name="country" value="usa" checked> <span class="flag">🇺🇸</span> United States — <em>Preferred: Corn</em></label>
+      <label class="country-option"><input type="radio" name="country" value="china"> <span class="flag">🇨🇳</span> China — <em>Preferred: Rice</em></label>
+      <label class="country-option"><input type="radio" name="country" value="india"> <span class="flag">🇮🇳</span> India — <em>Preferred: Rice</em></label>
+      <label class="country-option"><input type="radio" name="country" value="brazil"> <span class="flag">🇧🇷</span> Brazil — <em>Preferred: Cassava</em></label>
+      <label class="country-option"><input type="radio" name="country" value="egypt"> <span class="flag">🇪🇬</span> Egypt — <em>Preferred: Barley</em></label>
+      <label class="country-option"><input type="radio" name="country" value="ireland"> <span class="flag">🇮🇪</span> Ireland — <em>Preferred: Potato</em></label>
+    </div>
+
+    <div class="budget-input">
+      <label for="budget-input">Starting Budget:</label>
+      <input id="budget-input" type="text" placeholder="e.g. 200B or 500M" value="200B">
+      <p class="muted">Examples: <strong>200B</strong> = $200,000,000,000, <strong>500M</strong> = $500,000,000</p>
+    </div>
+
+    <div class="start-actions">
+      <button id="start-button">Start Game</button>
+    </div>
+    <div id="start-error" class="warning"></div>
+  </div>
+
+  <header class="header panel" id="main-header" style="display:none;">
+    <img src="nasa_logo.png" alt="NASA Logo" class="logo-small"/>
+    <div class="title-block">
+      <h1 id="game-title">Terra Farm</h1>
+      <div id="selected-country" class="selected-country"></div>
+    </div>
+  </header>
+
+  <main id="game-container" style="display:none;">
+    <section id="status-display" class="panel status-panel">
+      <h2>STATUS</h2>
+      <p>Turn: <span id="turn-counter">1</span> / <span id="max-turns">10</span></p>
+      <p>Budget: <span id="budget-value">$0</span></p>
+      <p>Total Food Value: <span id="total-food-value">$0</span></p>
+      <p>Environment: <span id="env-score-value">70</span></p>
+      <p>Era: <span id="era-value">Stone Age</span></p>
+      <p>Primary Crop: <span id="crop-value">-</span></p>
+    </section>
+
+    <section id="left-column">
+      <div id="data-display" class="panel data-panel">
+        <h3>📡 Satellite Data</h3>
+        <p>Average NDVI: <span id="ndvi-value">-</span></p>
+        <p>Soil Moisture: <span id="moisture-value">-</span>%</p>
+        <p>Forecast Precipitation: <span id="precipitation-value">-</span> mm</p>
+        <p>Average Temperature: <span id="temperature-value">-</span> °C</p>
+      </div>
+
+      <div id="map-panel" class="panel map-panel">
+        <h3>🌍 Field Map (NDVI)</h3>
+        <div id="map" class="map-grid"></div>
+        <div class="legend">
+          <span class="legend-box poor"></span> Barren 
+          <span class="legend-box low"></span> Low 
+          <span class="legend-box med"></span> Normal 
+          <span class="legend-box high"></span> Rich
+        </div>
+      </div>
+    </section>
+
+    <section id="decision-panel" class="panel decision-panel">
+      <h3>Actions (costs in USD)</h3>
+      <div class="choice-row">
+        <label for="crop-select">Choose crop:</label>
+        <select id="crop-select"></select>
+      </div>
+      <div class="slider-row">
+        <label>Fertilizer: <span id="fertilizer-value">$0</span></label>
+        <input id="fertilizer-slider" type="range" min="0" max="1000000000" step="1000000" value="0">
+      </div>
+      <div class="slider-row">
+        <label>Irrigation: <span id="irrigation-value">$0</span></label>
+        <input id="irrigation-slider" type="range" min="0" max="1000000000" step="1000000" value="0">
+      </div>
+      <div class="slider-row">
+        <label>Tech Investment: <span id="tech-value">$0</span></label>
+        <input id="tech-slider" type="range" min="0" max="1000000000" step="1000000" value="0">
+      </div>
+      <p class="muted">Remaining Budget: <span id="remaining-budget">$0</span></p>
+      <p id="allocation-warning" class="warning"></p>
+      <div class="buttons">
+        <button id="execute-turn-button">Execute Turn</button>
+        <button id="auto-allocate-button">Auto Normalize</button>
+      </div>
+    </section>
+
+    <section id="result-panel" class="panel result-panel">
+      <h3>Turn Results</h3>
+      <div id="turn-result-text" class="result"></div>
+      <div id="event-text" class="event"></div>
+      <div id="mini-graph"></div>
+      <h4>Mission Log</h4>
+      <div id="log" class="log-area"></div>
+    </section>
+  </main>
+
+  <div id="game-over-modal" class="modal-hidden">
+    <div class="modal-content panel">
+      <h2>MISSION COMPLETE</h2>
+      <p>Total Farm Revenue (added to budget each turn): <span id="final-food"></span></p>
+      <p>Final Environment: <span id="final-env"></span></p>
+      <p>Final Era: <span id="final-tech"></span></p>
+      <hr>
+      <p>Final Score: <strong id="final-score"></strong></p>
+      <div class="modal-actions">
+        <button id="replay-button">Play Again</button>
+        <button id="download-log">Download Log</button>
+      </div>
+      <p class="nasa-credit">🌠 Terra Farm</p>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
